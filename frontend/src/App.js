@@ -78,7 +78,7 @@ const App = () => {
                     )}
                 </LoginContainer>
                 <div>
-                    <TitleWrapper>Jammming</TitleWrapper>
+                    <TitleWrapper>Jammming App</TitleWrapper>
                 </div>
             </HeaderContainer>
             <SearchHeader>
