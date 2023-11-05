@@ -4,7 +4,9 @@
   "scripts": {
     "start": "concurrently \"npm --prefix frontend start\" \"cross-env PORT=3001 npm --prefix backend start\"",
     "install-all": "npm install && npm --prefix frontend install && npm --prefix backend install",
-    "build:digitalocean": "npm install --production=false && npm run build && npm ci"
+    "build:frontend": "npm --prefix frontend install && npm --prefix frontend run build",
+    "build:backend": "npm --prefix backend install",
+    "build:digitalocean": "npm run build:frontend && npm run build:backend"
   },
   "dependencies": {
     "concurrently": "^8.2.1",
