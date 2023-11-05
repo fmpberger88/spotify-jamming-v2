@@ -1,0 +1,12 @@
+{
+  "name": "jammming-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm --prefix frontend start\" \"cross-env PORT=3001 npm --prefix backend start\"",
+    "install-all": "npm install && npm --prefix frontend install && npm --prefix backend install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1",
+    "cross-env": "^7.0.3"
+  }
+}
