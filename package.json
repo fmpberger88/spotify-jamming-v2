@@ -6,7 +6,7 @@
     "install-all": "npm install && npm --prefix frontend install && npm --prefix backend install",
     "build:digitalocean": "npm install --production=false && npm run build && npm ci"
   },
-  "devDependencies": {
+  "dependencies": {
     "concurrently": "^8.2.1",
     "cross-env": "^7.0.3"
   }
