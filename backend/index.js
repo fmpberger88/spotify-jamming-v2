@@ -1,11 +1,10 @@
 require('dotenv').config();
-const SECRET_KEY = process.env.SECRET_KEY;
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
 const refreshAccessTokenIfNeeded = require('./middleware/refreshAccessToken');
-const { logging } = require('./middleware/logging');
+//const { logging } = require('./middleware/logging');
 const cookieParser = require('cookie-parser');
 //Routers
 const authRoutes = require('./routes/auth');
@@ -22,7 +21,7 @@ require('./config/passport')(passport);
 const app = express();
 
 // Server static files
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 // add security middleware
 const helmet = require('helmet');
@@ -43,7 +42,7 @@ app.use(cookieParser());
 
 // Use Session
 app.use(session({
-    secret: SECRET_KEY,
+    secret: process.env.SECRET_KEY,
     resave: true,
     saveUninitialized: true,
     cookie: { maxAge: 60 * 60 * 1000 }
@@ -55,11 +54,11 @@ app.use(passport.session());
 app.use(refreshAccessTokenIfNeeded);
 
 // Logging Middleware
-app.use(logging);
+//app.use(logging);
 
-app.get('/', (req, res) => {
-    res.send('Server is running');
-});
+//app.get('/', (req, res) => {
+//    res.send('Server is running');
+//});
 
 
 // neu hinzugefügt 30.10.2023
@@ -87,6 +86,6 @@ app.use('/api/tracklist', trackRouter);
 //app.use(errorHandling);
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

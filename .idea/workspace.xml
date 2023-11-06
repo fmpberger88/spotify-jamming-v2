@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1115c3be-1604-4555-8dc8-8c4d12d96721" name="Changes" comment="update project">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/combined.log" beforeDir="false" afterPath="$PROJECT_DIR$/backend/combined.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/backend/error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Tracklist/Tracklist.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Tracklist/Tracklist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middleware/logging.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middleware/logging.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/store/authService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/authService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/store/authSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/authSlice.js" afterDir="false" />
     </list>
@@ -138,7 +140,8 @@
       <workItem from="1699193633471" duration="2172000" />
       <workItem from="1699206888145" duration="3921000" />
       <workItem from="1699277007883" duration="1193000" />
-      <workItem from="1699309814741" duration="771000" />
+      <workItem from="1699309814741" duration="2561000" />
+      <workItem from="1699313861969" duration="359000" />
     </task>
     <task id="LOCAL-00001" summary="update project">
       <option name="closed" value="true" />

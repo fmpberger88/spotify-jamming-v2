@@ -34,7 +34,7 @@ module.exports.logging = morgan(morganFormat, {
         return res.statusCode < 400;
     },
     stream: {
-        write: function(message, encoding) {
+        write: function(message) {
             logger.error(message);
         }
     }
