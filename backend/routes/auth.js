@@ -32,7 +32,7 @@ authRouter.get('/', (req, res, next) => {
             res.cookie('loggedIn', 'true', {
                 httpOnly: true,
                 secure: cookieSecure, // Verwende dies nur, wenn deine Website HTTPS verwendet
-                SameSite: cookieSameSite,
+                //SameSite: cookieSameSite,
                 maxAge: 7200000 // 2 Stunden in Millisekunden
             });
 
