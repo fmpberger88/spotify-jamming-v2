@@ -24,8 +24,8 @@ const app = express();
 //app.use(express.static('public'));
 
 // add security middleware
-const helmet = require('helmet');
-app.use(helmet());
+//const helmet = require('helmet');
+//app.use(helmet());
 
 // Configure CORS
 app.use(cors({
