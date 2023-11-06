@@ -1,24 +1,5 @@
-import { login, logout } from '../store/authSlice';
+import { login, logout } from './authSlice';
 import axios from 'axios';
-
-export const checkAuthStatus = () => async (dispatch) => {
-    console.log('Dispatching checkAuthStatus');
-    try {
-        const response = await axios.get('/api/auth/spotify/status', { withCredentials: true });
-        console.log('Auth status response:', response.data);
-        if (response.data.loggedIn) {
-            console.log('Dispatching login action');
-            dispatch(login());
-        } else {
-            console.log('Dispatching logout action');
-            dispatch(logout());
-        }
-    } catch (error) {
-        console.error("Status Check Failed:", error);
-        dispatch(logout());
-    }
-};
-
 
 
 export const performLogout = () => async (dispatch) => {

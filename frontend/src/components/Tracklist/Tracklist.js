@@ -20,7 +20,7 @@ function TrackList({ tracklist, setTracklist }) {
     const removeTrack = async (id) => {
         try {
             await axios.delete('http://localhost:3001/api/tracklist/remove', { data: { id } });
-            fetchData(); // Aktualisiere die Trackliste vom Server
+            await fetchData(); // Aktualisiere die Trackliste vom Server
         } catch (error) {
             console.error("An error occurred while removing a track: ", error);
         }
