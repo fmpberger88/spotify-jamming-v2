@@ -3,16 +3,17 @@ const passport = require('passport');
 const authRouter = express.Router();
 
 // Spotify Authentication - Login
-authRouter.get(
-    '/',
+authRouter.get('/', (req, res, next) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     passport.authenticate('spotify', {
-        scope: ['user-read-email', 'user-read-private'],
+        scope: ['user-read-email', 'user-read-private', 'playlist-modify-public', 'playlist-modify-private'],
         showDialog: true
-    })
-);
+    })(req, res, next);
+});
+
 
 authRouter.get('/callback',
-    passport.authenticate('spotify', { failureRedirect: '/login' }),
+    passport.authenticate('spotify', { failureRedirect: '/' }),
     (req, res) => {
         // No need to set a 'loggedIn' cookie since the session will have the login state
         res.redirect('/'); // Redirect to the home page after successful login
