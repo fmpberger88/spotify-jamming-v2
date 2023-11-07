@@ -3,13 +3,13 @@ const passport = require('passport');
 const authRouter = express.Router();
 
 // Spotify Authentication - Login
-authRouter.get('/', (req, res, next) => {
-    res.set('Cache-Control', 'no-store');
+authRouter.get(
+    '/',
     passport.authenticate('spotify', {
-        scope: ['user-read-email', 'user-read-private', 'playlist-modify-public', 'playlist-modify-private'],
+        scope: ['user-read-email', 'user-read-private'],
         showDialog: true
-    })(req, res, next);
-});
+    })
+);
 
 authRouter.get('/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),
