@@ -54,9 +54,11 @@ require('./config/passport')(passport);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+    // Set the path to the frontend build directory
+    app.use(express.static(path.join(__dirname, '..', '..', 'frontend', 'build')));
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+        // Send the frontend's index.html file
+        res.sendFile(path.join(__dirname, '..', '..', 'frontend', 'build', 'index.html'));
     });
 }
 
