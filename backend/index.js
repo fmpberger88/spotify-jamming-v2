@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
@@ -20,8 +21,15 @@ require('./config/passport')(passport);
 
 const app = express();
 
-// Server static files
-//app.use(express.static('public'));
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('frontend/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '..', 'frontend', 'build', 'index.html'));
+    });
+}
 
 // add security middleware
 //const helmet = require('helmet');
@@ -57,7 +65,7 @@ app.use(refreshAccessTokenIfNeeded);
 //app.use(logging);
 
 app.get('/', (req, res) => {
-    res.send(`Server is running on Port ${process.env.PORT} using ${process.env.SPOTIFY_CLIENT_SECRET} and ${process.env.SPOTIFY_CLIENT_ID}`);
+    res.send(`Server is running on Port ${process.env.PORT}`);
 });
 
 app.get('/health', (req, res) => {

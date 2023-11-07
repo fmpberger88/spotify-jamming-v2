@@ -7,6 +7,8 @@
     <list default="true" id="1115c3be-1604-4555-8dc8-8c4d12d96721" name="Changes" comment="update project">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +143,7 @@
       <workItem from="1699206888145" duration="3921000" />
       <workItem from="1699277007883" duration="1193000" />
       <workItem from="1699309814741" duration="2561000" />
-      <workItem from="1699313861969" duration="7093000" />
+      <workItem from="1699313861969" duration="7783000" />
     </task>
     <task id="LOCAL-00001" summary="update project">
       <option name="closed" value="true" />
