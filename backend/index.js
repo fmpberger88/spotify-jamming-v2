@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const RedisStore = require("connect-redis").default;
+const connectRedis = require('connect-redis');
 const Redis = require('ioredis');
 const passport = require('passport');
 // Middleware
@@ -17,11 +17,13 @@ const spotifyPlaylistRouter = require('./routes/spotifyPlaylist');
 const trackRouter = require('./routes/trackList');
 
 
+
 const app = express();
 
 // Initialize Redis
 const redisClient = new Redis(process.env.REDIS_URL);
-
+// Initialize Store
+const RedisStore = connectRedis(session)
 
 // Session configuration
 const sessionConfig = {
@@ -38,8 +40,6 @@ const sessionConfig = {
 };
 
 app.use(session(sessionConfig));
-
-
 
 // Passport configuration
 require('./config/passport')(passport);
@@ -89,16 +89,4 @@ app.get('/health', (req, res) => res.sendStatus(200));
 // Start the server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-// Error handling - define as the last middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
-
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-    // Recommended: send the information to sentry.io or similar services
-});
 
