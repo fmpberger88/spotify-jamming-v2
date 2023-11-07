@@ -3,11 +3,12 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const RedisStore = require('connect-redis').default;
-const { createClient } = require('redis');
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
+
 // Middleware
 const refreshAccessTokenIfNeeded = require('./middleware/refreshAccessToken');
+
 // Routes
 const authRoutes = require('./routes/auth');
 const callbackRouter = require('./routes/callback');
@@ -21,34 +22,17 @@ require('./config/passport')(passport);
 
 const app = express();
 
-// Initialize client.
-const redisClient = createClient({
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-        host: 'redis-17858.c135.eu-central-1-1.ec2.cloud.redislabs.com',
-        port: 17858,
-        tls: {}
-    }
-});
-
-redisClient.on('error', (err) => console.log('Redis Client Error', err));
-redisClient.connect().catch(console.error);
-
-// Initialize store.
-const redisStore = new RedisStore({
-    client: redisClient,
-    prefix: 'jamming:'
-});
-
-// Initialize session storage.
+// Initialize session storage with MongoDB.
 app.use(session({
-    store: redisStore,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI // Your MongoDB connection string
+    }),
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET, // Use a secure secret from your environment variables
+    saveUninitialized: true,
     cookie: {
         maxAge: 60 * 60 * 1000, // 1 hour
-        secure: process.env.NODE_ENV === 'production', // use secure cookies in production
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
         httpOnly: true,
         sameSite: 'lax'
     }
@@ -75,6 +59,8 @@ app.use(express.json());
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Middleware to refresh the access token if needed
 app.use(refreshAccessTokenIfNeeded);
 
 // Health check endpoint
@@ -97,7 +83,7 @@ app.use('/api/spotify', spotifyAudiobooksRouter);
 app.use('/api/tracklist', trackRouter);
 
 // Error Handling Middleware
-// app.use(errorHandling);
+// app.use(errorHandling); // Uncomment and define this middleware as needed
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
