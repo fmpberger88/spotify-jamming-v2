@@ -60,6 +60,9 @@ app.use(refreshAccessTokenIfNeeded);
 //    res.send('Server is running');
 //});
 
+app.get('/health', (req, res) => {
+    res.sendStatus(200);
+})
 
 // neu hinzugefügt 30.10.2023
 app.get('/api/auth/spotify/status', (req, res) => {
@@ -80,6 +83,7 @@ app.use('/api/spotify', searchSpotifyRouter);
 app.use('/api/spotify', spotifyPlaylistRouter);
 app.use('/api/spotify', spotifyAudiobooksRouter);
 app.use('/api/tracklist', trackRouter);
+
 
 
 // Error Handling Middleware
