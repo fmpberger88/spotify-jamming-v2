@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const connectRedis = require('connect-redis');
-const Redis = require('redis');
+let RedisStore = require('connect-redis')(session);
+const Redis = require('ioredis');
 const passport = require('passport');
 // Middleware
 const refreshAccessTokenIfNeeded = require('./middleware/refreshAccessToken');
@@ -17,14 +17,7 @@ const spotifyPlaylistRouter = require('./routes/spotifyPlaylist');
 const trackRouter = require('./routes/trackList');
 
 // Initialize Redis
-const RedisStore = connectRedis(session);
-const redisClient = Redis.createClient({
-    url: process.env.REDIS_URL, // Your internal Redis URL from Render
-    legacyMode: true
-});
-
-redisClient.connect().catch(console.error);
-
+const redisClient = new Redis(process.env.REDIS_URL);
 const app = express();
 
 // Session configuration
@@ -105,3 +98,4 @@ process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection at:', promise, 'reason:', reason);
     // Recommended: send the information to sentry.io or similar services
 });
+
