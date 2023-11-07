@@ -3,7 +3,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const RedisStore = require('connect-redis')(session); // Add Redis store
+const ConnectRedis = require('connect-redis');
+const RedisStore = ConnectRedis(session);
 const redis = require('redis');
 const passport = require('passport');
 // Middleware
