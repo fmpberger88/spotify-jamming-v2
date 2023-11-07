@@ -72,7 +72,7 @@ const App = () => {
             <HeaderContainer>
                 <LoginContainer>
                     {!loggedIn ? (
-                        <LoginButton onClick={() => dispatch(performLogin())}>Login with Spotify</LoginButton>
+                        <LoginButton onClick={performLogin}>Login with Spotify</LoginButton>
                     ) : (
                         <LoginButton onClick={() => dispatch(performLogout())}>Logout</LoginButton>
                     )}
