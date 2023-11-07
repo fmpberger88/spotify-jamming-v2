@@ -21,9 +21,8 @@ const trackRouter = require('./routes/trackList');
 const app = express();
 
 // Initialize Redis
-const redisClient = redis.createClient({
-    url: process.env.REDIS_URL,
-});
+// Correct initialization using Render's Redis URL
+const redisClient = new redis(process.env.REDIS_URL);
 
 redisClient.connect().catch(console.error);
 
