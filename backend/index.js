@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const connectRedis = require('connect-redis');
-const Redis = require('ioredis');
+const connectRedis = require('connect-redis').default;
+const redis = require('ioredis');
 const passport = require('passport');
 // Middleware
 const refreshAccessTokenIfNeeded = require('./middleware/refreshAccessToken');
@@ -21,13 +21,21 @@ const trackRouter = require('./routes/trackList');
 const app = express();
 
 // Initialize Redis
-const redisClient = new Redis(process.env.REDIS_URL);
+const redisClient = redis.createClient({
+    url: process.env.REDIS_URL,
+});
+
+redisClient.connect().catch(console.error);
+
+
 // Initialize Store
-const RedisStore = connectRedis(session)
+let redisStore = new RedisStore({
+    client: redisClient,
+})
 
 // Session configuration
 const sessionConfig = {
-    store: new RedisStore({ client: redisClient }),
+    store: redisStore,
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
