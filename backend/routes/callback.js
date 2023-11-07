@@ -5,7 +5,7 @@ const callbackRouter = express.Router();
 callbackRouter.get('/',
     passport.authenticate('spotify', { failureRedirect: '/' }),
     (req, res) => {
-        res.redirect('http://localhost:3000/');
+        res.redirect('https://fmpberger-jammming.onrender.com');
     }
 );
 

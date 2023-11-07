@@ -31,8 +31,8 @@ authRouter.get('/', (req, res, next) => {
             // Cookie setzen
             res.cookie('loggedIn', 'true', {
                 httpOnly: true,
-                secure: cookieSecure, // Verwende dies nur, wenn deine Website HTTPS verwendet
-                //SameSite: cookieSameSite,
+                secure: true, // Verwende dies nur, wenn deine Website HTTPS verwendet
+                SameSite: Strict,
                 maxAge: 7200000 // 2 Stunden in Millisekunden
             });
 
@@ -41,7 +41,7 @@ authRouter.get('/', (req, res, next) => {
     })(req, res, next);
 });
 
-authRouter.get('/logout', (req, res) => {
+authRouter.get('/logout', (req, res, next) => {
     // Logout the user using the logout method provided by the authentication middleware (like passport)
     req.logout((err) => {
         if (err) {

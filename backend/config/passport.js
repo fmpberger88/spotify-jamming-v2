@@ -14,7 +14,7 @@ module.exports = (passport) => {
             {
                 clientID: process.env.SPOTIFY_CLIENT_ID,
                 clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-                callbackURL: 'http://localhost:3001/callback'
+                callbackURL: `https://fmpberger-jammming.onrender.com/callback`
         },
             (accessToken, refreshToken, expires_in, profile, done) => {
                 profile.accessToken = accessToken;
