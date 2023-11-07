@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-let RedisStore = require('connect-redis')(session);
+const RedisStore = require("connect-redis").default;
 const Redis = require('ioredis');
 const passport = require('passport');
 // Middleware
@@ -16,9 +16,12 @@ const spotifyAudiobooksRouter = require('./routes/spotifyAudiobooks');
 const spotifyPlaylistRouter = require('./routes/spotifyPlaylist');
 const trackRouter = require('./routes/trackList');
 
+
+const app = express();
+
 // Initialize Redis
 const redisClient = new Redis(process.env.REDIS_URL);
-const app = express();
+
 
 // Session configuration
 const sessionConfig = {
@@ -88,7 +91,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Error handling - define as the last middleware
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
