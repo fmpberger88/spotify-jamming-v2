@@ -3,9 +3,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const ConnectRedis = require('connect-redis');
-const RedisStore = ConnectRedis(session);
-const redis = require('redis');
+import RedisStore from 'connect-redis';
+const { createClient } = require('redis');
 const passport = require('passport');
 // Middleware
 const refreshAccessTokenIfNeeded = require('./middleware/refreshAccessToken');
@@ -22,18 +21,26 @@ require('./config/passport')(passport);
 
 const app = express();
 
-// Create Redis client
-let redisClient = redis.createClient({
-    url: process.env.REDIS_URL // This should be provided by your Redis hosting service
+// Initialize client.
+const redisClient = createClient({
+    url: process.env.REDIS_URL // Provide your Redis server URL here
 });
-redisClient.on('error', (err) => console.log('Redis Client Error', err));
 
-// Use RedisStore for session storage
+redisClient.on('error', (err) => console.log('Redis Client Error', err));
+await redisClient.connect();
+
+// Initialize store.
+const redisStore = new RedisStore({
+    client: redisClient,
+    prefix: 'myapp:'
+});
+
+// Initialize session storage.
 app.use(session({
-    store: new RedisStore({ client: redisClient }),
-    secret: process.env.SESSION_SECRET,
+    store: redisStore,
     resave: false,
     saveUninitialized: false,
+    secret: process.env.SESSION_SECRET, // Use a secure secret from your environment variables
     cookie: {
         maxAge: 60 * 60 * 1000, // 1 hour
         secure: process.env.NODE_ENV === 'production', // use secure cookies in production
