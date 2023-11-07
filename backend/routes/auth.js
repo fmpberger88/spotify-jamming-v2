@@ -12,13 +12,13 @@ authRouter.get('/', (req, res, next) => {
 });
 
 
-authRouter.get('/callback',
-    passport.authenticate('spotify', { failureRedirect: '/' }),
-    (req, res) => {
+//authRouter.get('/callback',
+//    passport.authenticate('spotify', { failureRedirect: '/' }),
+//    (req, res) => {
         // No need to set a 'loggedIn' cookie since the session will have the login state
-        res.redirect('/'); // Redirect to the home page after successful login
-    }
-);
+//        res.redirect('/'); // Redirect to the home page after successful login
+//    }
+//);
 
 
 // Logout route

@@ -64,9 +64,10 @@ require('./config/passport')(passport);
 
 // Configure CORS
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN || 'https://fmpberger-jammming.onrender.com/', // Stellen Sie sicher, dass diese URL korrekt ist
+    credentials: true, // Um Cookies und Authentifizierungsdaten zu senden
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Use JSON middleware
