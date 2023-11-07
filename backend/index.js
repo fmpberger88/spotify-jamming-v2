@@ -20,6 +20,16 @@ const trackRouter = require('./routes/trackList');
 
 const app = express();
 
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+    // Use an absolute path to the build directory
+    const frontendPath = path.resolve(__dirname, '..', 'frontend', 'build');
+    app.use(express.static(frontendPath));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(frontendPath, 'index.html'));
+    });
+}
+
 // Initialize Redis
 // Correct initialization using Render's Redis URL
 const redisClient = new redis(process.env.REDIS_URL);
@@ -51,16 +61,6 @@ app.use(session(sessionConfig));
 // Passport configuration
 require('./config/passport')(passport);
 
-
-// Serve static assets if in production
-if (process.env.NODE_ENV === 'production') {
-    // Set the path to the frontend build directory
-    app.use(express.static(path.join(__dirname, '..', '..', 'frontend', 'build')));
-    app.get('*', (req, res) => {
-        // Send the frontend's index.html file
-        res.sendFile(path.join(__dirname, '..', '..', 'frontend', 'build', 'index.html'));
-    });
-}
 
 // Configure CORS
 app.use(cors({
