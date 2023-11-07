@@ -59,7 +59,7 @@ const App = () => {
 
     const addToTracklist = async (track) => {
         try {
-            const response = await axios.post('http://localhost:3001/api/tracklist/add', { track });
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/tracklist/add`, { track });
             setTracklist([...tracklist, response.data]);
         } catch (error) {
             console.error('Failed to add track to tracklist:', error);
@@ -72,7 +72,7 @@ const App = () => {
             <HeaderContainer>
                 <LoginContainer>
                     {!loggedIn ? (
-                        <LoginButton onClick={() => dispatch(performLogin())}>Login with Spotify</LoginButton>
+                        <LoginButton onClick={() => dispatch(performLogin)}>Login with Spotify</LoginButton>
                     ) : (
                         <LoginButton onClick={() => dispatch(performLogout())}>Logout</LoginButton>
                     )}

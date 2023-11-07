@@ -39,10 +39,10 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchLoginStatus.fulfilled, (state, action) => {
+            .addCase(fetchLoginStatus.fulfilled, (state) => {
                 state.loggedIn = true;
             })
-            .addCase(fetchLoginStatus.rejected, (state, action) => {
+            .addCase(fetchLoginStatus.rejected, (state) => {
                 state.loggedIn = false;
                 // Hier könnten Sie auch einen Error-Status oder eine Fehlermeldung im State speichern
             });

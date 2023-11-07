@@ -56,9 +56,9 @@ app.use(refreshAccessTokenIfNeeded);
 // Logging Middleware
 //app.use(logging);
 
-//app.get('/', (req, res) => {
-//    res.send('Server is running');
-//});
+app.get('/', (req, res) => {
+    res.send('Server is running');
+});
 
 app.get('/health', (req, res) => {
     res.sendStatus(200);

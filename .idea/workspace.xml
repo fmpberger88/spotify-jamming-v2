@@ -5,7 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1115c3be-1604-4555-8dc8-8c4d12d96721" name="Changes" comment="update project">
+      <change afterPath="$PROJECT_DIR$/qodana.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/CreatePlaylistFromTracks/CreatePlaylistFromTracks.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CreatePlaylistFromTracks/CreatePlaylistFromTracks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Playlist/Playlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Playlist/Playlist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Searchbar/Searchbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Searchbar/Searchbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SearchbarAudiobooks/SearchbarAudiobooks.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SearchbarAudiobooks/SearchbarAudiobooks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Track/Track.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Track/Track.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Tracklist/Tracklist.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Tracklist/Tracklist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/authService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/authService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/authSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/authSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +76,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="QodanaReportsService">
+    <option name="descriptions">
+      <ReportDescription localRun="true" path="C:\Users\fabia\AppData\Local\Temp\qodana_output\qodana.sarif.json" reportGuid="c835efb9-b0d9-4906-b089-611b3cfcb080" reportId="spotify-jamming-v2/qodana/2023-11-07" />
+    </option>
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\fabia\WebstormProjects\spotify-jamming-v2\backend\routes" />
@@ -135,7 +152,7 @@
       <workItem from="1699206888145" duration="3921000" />
       <workItem from="1699277007883" duration="1193000" />
       <workItem from="1699309814741" duration="2561000" />
-      <workItem from="1699313861969" duration="2517000" />
+      <workItem from="1699313861969" duration="6679000" />
     </task>
     <task id="LOCAL-00001" summary="update project">
       <option name="closed" value="true" />

@@ -9,7 +9,7 @@ const Playlist = () => {
     useEffect(() => {
         const fetchPlaylists = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/spotify/playlist', {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/spotify/playlist`, {
                     withCredentials: true
                 });
                 setPlaylists(response.data.items);

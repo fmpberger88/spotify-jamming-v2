@@ -6,7 +6,7 @@ import { DeleteButton, TrackListContainer, TrackListItem, TrackTitelWrapper} fro
 function TrackList({ tracklist, setTracklist }) {
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/api/tracklist/list');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/tracklist/list`);
             setTracklist(response.data);
         } catch (error) {
             console.error("An error occurred while fetching data: ", error);
@@ -19,7 +19,7 @@ function TrackList({ tracklist, setTracklist }) {
 
     const removeTrack = async (id) => {
         try {
-            await axios.delete('http://localhost:3001/api/tracklist/remove', { data: { id } });
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/tracklist/remove`, { data: { id } });
             await fetchData(); // Aktualisiere die Trackliste vom Server
         } catch (error) {
             console.error("An error occurred while removing a track: ", error);

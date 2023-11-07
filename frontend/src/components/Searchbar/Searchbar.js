@@ -19,7 +19,7 @@ const Searchbar = ({ setSearchResults }) => {
 
         try {
             // Hier rufen wir direkt die Spotify-API oder Ihren lokalen Server auf, je nachdem, was Sie bevorzugen
-            const response = await axios.get(`http://localhost:3001/api/spotify/search`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/spotify/search`, {
                 params: { type: "tracks", term: query.trim() },
                 withCredentials: true
             });

@@ -5,7 +5,7 @@ import {AddButton, TrackArtist, TrackContainer, TrackImage, TrackName} from "../
 const Track = ({ track, addToTracklist }) => {
     const playTrack = async () => {
         try {
-            await axios.post(`http://localhost:3001/api/spotify/play`, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/spotify/play`, {
                 trackUri: track.uri
             }, {
                 withCredentials: true

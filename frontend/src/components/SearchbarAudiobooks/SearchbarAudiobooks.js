@@ -18,7 +18,7 @@ const SearchbarAudiobooks = ({ setSearchResults }) => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:3001/api/spotify/search-audiobooks`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/spotify/search-audiobooks`, {
                 params: { term: query.trim() },
                 withCredentials: true
             });

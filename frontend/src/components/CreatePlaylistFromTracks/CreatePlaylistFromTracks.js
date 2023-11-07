@@ -18,7 +18,7 @@ function CreatePlaylistFromTracks( {trackIds} ) {
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/api/spotify/create', {
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/spotify/create`, {
                 name: playlistName,
                 description: playlistDescription,
                 public: isPublic,

@@ -7,7 +7,7 @@ import axios from 'axios';
 export const performLogout = () => async (dispatch) => {
     console.log('Performing logout');
     try {
-        await axios.get('http://localhost:3001/api/auth/spotify/logout', { withCredentials: true });
+        await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/spotify/logout`, { withCredentials: true });
         dispatch(logout());
         console.log('Logout successful');
     } catch (error) {
@@ -17,5 +17,5 @@ export const performLogout = () => async (dispatch) => {
 
 
 export const performLogin = () => {
-    window.location.href = 'http://localhost:3001/api/auth/spotify';
+    window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/spotify`;
 };
