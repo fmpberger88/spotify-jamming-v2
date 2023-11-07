@@ -3,13 +3,11 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const { MongoClient } = require('mongodb');
-const MongoStore = require('connect-mongo');
+const RedisStore = require('connect-redis').default;
+const { createClient } = require('redis');
 const passport = require('passport');
-
 // Middleware
 const refreshAccessTokenIfNeeded = require('./middleware/refreshAccessToken');
-
 // Routes
 const authRoutes = require('./routes/auth');
 const callbackRouter = require('./routes/callback');
@@ -23,31 +21,37 @@ require('./config/passport')(passport);
 
 const app = express();
 
-// Create a new MongoClient
-const client = new MongoClient(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+// Initialize client.
+const redisClient = createClient({
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: 'redis://red-cl54sih82rpc739m09kg',
+        port: 6379
+    }
 });
 
-async function main() {
-    try {
-        // Connect the client to the server (use await only in async functions)
-        await client.connect();
-        console.log("Connected to MongoDB");
+redisClient.on('error', (err) => console.log('Redis Client Error', err));
+redisClient.connect().catch(console.error);
 
-        // Initialize session storage with MongoDB using the connected client.
-        app.use(session({
-            store: MongoStore.create({ client: client }),
-            secret: process.env.SECRET_KEY,
-            resave: false,
-            saveUninitialized: true,
-            cookie: {
-                maxAge: 60 * 60 * 1000, // 1 hour
-                secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-                httpOnly: true,
-                sameSite: 'lax'
-            }
-        }));
+// Initialize store.
+const redisStore = new RedisStore({
+    client: redisClient,
+    prefix: 'jamming:'
+});
+
+// Initialize session storage.
+app.use(session({
+    store: redisStore,
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET, // Use a secure secret from your environment variables
+    cookie: {
+        maxAge: 60 * 60 * 1000, // 1 hour
+        secure: process.env.NODE_ENV === 'production', // use secure cookies in production
+        httpOnly: true,
+        sameSite: 'lax'
+    }
+}));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
@@ -70,14 +74,8 @@ app.use(express.json());
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Middleware to refresh the access token if needed
 app.use(refreshAccessTokenIfNeeded);
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-    res.sendStatus(200);
-});
 
 // Check authentication status
 app.get('/api/auth/spotify/status', (req, res) => {
@@ -93,20 +91,21 @@ app.use('/api/spotify', spotifyPlaylistRouter);
 app.use('/api/spotify', spotifyAudiobooksRouter);
 app.use('/api/tracklist', trackRouter);
 
-// Error Handling Middleware
-// app.use(errorHandling); // Uncomment and define this middleware as needed
+// Health check endpoint
+app.get('/health', (req, res) => res.sendStatus(200));
 
+// Start the server
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Error handling - define as the last middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
 });
 
-    } catch (err) {
-        console.log("Error connecting to MongoDB", err);
-    }
-}
-
-main().catch(console.error);
-
-// Make sure to close the connection when your app stops
-process.on('exit', () => client.close());
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // Recommended: send the information to sentry.io or similar services
+});
