@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
 // Correct initialization using Render's Redis URL
 const redisClient = new redis(process.env.REDIS_URL);
 
-redisClient.connect().catch(console.error);
+//redisClient.connect().catch(console.error);
 
 
 // Initialize Store
