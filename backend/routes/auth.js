@@ -14,16 +14,11 @@ authRouter.get('/', (req, res, next) => {
 authRouter.get('/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     (req, res) => {
-        // Set a secure, httpOnly cookie to indicate logged-in status
-        res.cookie('loggedIn', 'true', {
-            httpOnly: true,
-            secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // Ensure cookies are sent over HTTPS
-            sameSite: 'Strict', // Protect against CSRF
-            maxAge: 7200000 // 2 hours in milliseconds
-        });
+        // No need to set a 'loggedIn' cookie since the session will have the login state
         res.redirect('/'); // Redirect to the home page after successful login
     }
 );
+
 
 // Logout route
 authRouter.get('/logout', (req, res, next) => {

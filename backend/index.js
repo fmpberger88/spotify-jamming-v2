@@ -3,37 +3,51 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
+const RedisStore = require('connect-redis')(session); // Add Redis store
+const redis = require('redis');
 const passport = require('passport');
+// Middleware
 const refreshAccessTokenIfNeeded = require('./middleware/refreshAccessToken');
-//const { logging } = require('./middleware/logging');
-const cookieParser = require('cookie-parser');
-//Routers
+// Routes
 const authRoutes = require('./routes/auth');
 const callbackRouter = require('./routes/callback');
 const searchSpotifyRouter = require('./routes/searchSpotify');
 const spotifyAudiobooksRouter = require('./routes/spotifyAudiobooks');
 const spotifyPlaylistRouter = require('./routes/spotifyPlaylist');
 const trackRouter = require('./routes/trackList');
-//const errorHandling = require('./middleware/errorHandler');
 
-// Initialize Passport
+// Passport configuration
 require('./config/passport')(passport);
 
 const app = express();
 
+// Create Redis client
+let redisClient = redis.createClient({
+    url: process.env.REDIS_URL // This should be provided by your Redis hosting service
+});
+redisClient.on('error', (err) => console.log('Redis Client Error', err));
+
+// Use RedisStore for session storage
+app.use(session({
+    store: new RedisStore({ client: redisClient }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 1000, // 1 hour
+        secure: true,
+        httpOnly: true,
+        sameSite: 'lax'
+    }
+}));
+
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
-    // Set static folder
-    app.use(express.static('frontend/build'));
-
+    app.use(express.static(path.join(__dirname, 'frontend', 'build')));
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '..', 'frontend', 'build', 'index.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
     });
 }
-
-// add security middleware
-//const helmet = require('helmet');
-//app.use(helmet());
 
 // Configure CORS
 app.use(cors({
@@ -45,46 +59,23 @@ app.use(cors({
 // Use JSON middleware
 app.use(express.json());
 
-// Cookie-Parser
-app.use(cookieParser());
-
-// Use Session
-app.use(session({
-    secret: process.env.SECRET_KEY,
-    resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 60 * 60 * 1000 }
-}));
-
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(refreshAccessTokenIfNeeded);
 
-// Logging Middleware
-//app.use(logging);
-
-app.get('/', (req, res) => {
-    res.send(`Server is running on Port ${process.env.PORT}`);
-});
-
+// Health check endpoint
 app.get('/health', (req, res) => {
     res.sendStatus(200);
-})
-
-// neu hinzugefügt 30.10.2023
-app.get('/api/auth/spotify/status', (req, res) => {
-    console.log("Received request to check authentication status");
-    console.log("Cookies: ", req.cookies);
-    const loggedIn = req.cookies['loggedIn'] === 'true';
-    console.log('Logged in status from cookies:', loggedIn);
-    res.json({ loggedIn });
 });
 
+// Check authentication status
+app.get('/api/auth/spotify/status', (req, res) => {
+    const isLoggedIn = req.session?.passport?.user != null;
+    res.json({ loggedIn: isLoggedIn });
+});
 
-
-
-// Routes
+// Register routes
 app.use('/api/auth/spotify', authRoutes);
 app.use('/callback', callbackRouter);
 app.use('/api/spotify', searchSpotifyRouter);
@@ -92,10 +83,8 @@ app.use('/api/spotify', spotifyPlaylistRouter);
 app.use('/api/spotify', spotifyAudiobooksRouter);
 app.use('/api/tracklist', trackRouter);
 
-
-
 // Error Handling Middleware
-//app.use(errorHandling);
+// app.use(errorHandling);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
