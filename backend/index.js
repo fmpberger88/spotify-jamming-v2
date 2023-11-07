@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
+const { MongoClient } = require('mongodb');
 const MongoStore = require('connect-mongo');
-const mongoose = require('mongoose');
 const passport = require('passport');
 
 // Middleware
@@ -23,24 +23,31 @@ require('./config/passport')(passport);
 
 const app = express();
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
+// Create a new MongoClient
+const client = new MongoClient(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
-// Initialize session storage with MongoDB.
-app.use(session({
-    store: MongoStore.create({ mongooseConnection: mongoose.connection }),
-    secret: process.env.SECRET_KEY,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 60 * 60 * 1000, // 1 hour
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-        httpOnly: true,
-        sameSite: 'lax'
-    }
-}));
+async function main() {
+    try {
+        // Connect the client to the server (use await only in async functions)
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        // Initialize session storage with MongoDB using the connected client.
+        app.use(session({
+            store: MongoStore.create({ client: client }),
+            secret: process.env.SECRET_KEY,
+            resave: false,
+            saveUninitialized: true,
+            cookie: {
+                maxAge: 60 * 60 * 1000, // 1 hour
+                secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+                httpOnly: true,
+                sameSite: 'lax'
+            }
+        }));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
@@ -93,3 +100,13 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+    } catch (err) {
+        console.log("Error connecting to MongoDB", err);
+    }
+}
+
+main().catch(console.error);
+
+// Make sure to close the connection when your app stops
+process.on('exit', () => client.close());
