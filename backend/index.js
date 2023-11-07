@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const RedisStore = require('connect-redis');
+const RedisStore = require('connect-redis').default;
 const { createClient } = require('redis');
 const passport = require('passport');
 // Middleware
@@ -27,12 +27,12 @@ const redisClient = createClient({
 });
 
 redisClient.on('error', (err) => console.log('Redis Client Error', err));
-await redisClient.connect();
+redisClient.connect().catch(console.error);
 
 // Initialize store.
 const redisStore = new RedisStore({
     client: redisClient,
-    prefix: 'myapp:'
+    prefix: 'jamming:'
 });
 
 // Initialize session storage.
