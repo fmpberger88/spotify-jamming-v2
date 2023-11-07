@@ -31,7 +31,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 // Initialize session storage with MongoDB.
 app.use(session({
     store: MongoStore.create({ mongooseConnection: mongoose.connection }),
-    secret: process.env.SESSION_KEY,
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {
