@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1115c3be-1604-4555-8dc8-8c4d12d96721" name="Changes" comment="update project">
-      <change afterPath="$PROJECT_DIR$/qodana.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/CreatePlaylistFromTracks/CreatePlaylistFromTracks.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CreatePlaylistFromTracks/CreatePlaylistFromTracks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Playlist/Playlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Playlist/Playlist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Searchbar/Searchbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Searchbar/Searchbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/SearchbarAudiobooks/SearchbarAudiobooks.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SearchbarAudiobooks/SearchbarAudiobooks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Track/Track.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Track/Track.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Tracklist/Tracklist.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Tracklist/Tracklist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/authService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/authService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/authSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/authSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +141,7 @@
       <workItem from="1699206888145" duration="3921000" />
       <workItem from="1699277007883" duration="1193000" />
       <workItem from="1699309814741" duration="2561000" />
-      <workItem from="1699313861969" duration="6679000" />
+      <workItem from="1699313861969" duration="7093000" />
     </task>
     <task id="LOCAL-00001" summary="update project">
       <option name="closed" value="true" />

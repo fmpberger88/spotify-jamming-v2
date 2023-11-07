@@ -57,7 +57,7 @@ app.use(refreshAccessTokenIfNeeded);
 //app.use(logging);
 
 app.get('/', (req, res) => {
-    res.send('Server is running');
+    res.send(`Server is running on Port ${process.env.PORT} using ${process.env.SPOTIFY_CLIENT_SECRET} and ${process.env.SPOTIFY_CLIENT_ID}`);
 });
 
 app.get('/health', (req, res) => {
