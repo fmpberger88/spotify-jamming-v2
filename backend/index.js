@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const mongoose = require('mongoose');
 const passport = require('passport');
 
 // Middleware
@@ -22,11 +23,14 @@ require('./config/passport')(passport);
 
 const app = express();
 
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
+
 // Initialize session storage with MongoDB.
 app.use(session({
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI // Your MongoDB connection string
-    }),
+    store: MongoStore.create({ mongooseConnection: mongoose.connection }),
     secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: true,
