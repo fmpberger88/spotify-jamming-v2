@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-import RedisStore from 'connect-redis';
+const RedisStore = require('connect-redis');
 const { createClient } = require('redis');
 const passport = require('passport');
 // Middleware
