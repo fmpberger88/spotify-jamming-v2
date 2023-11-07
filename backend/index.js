@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const RedisStore = require('connect-redis').default;
-const { createClient } = require('redis');
+const connectRedis = require('connect-redis');
+const Redis = require('redis');
 const passport = require('passport');
 // Middleware
 const refreshAccessTokenIfNeeded = require('./middleware/refreshAccessToken');
@@ -16,42 +16,38 @@ const spotifyAudiobooksRouter = require('./routes/spotifyAudiobooks');
 const spotifyPlaylistRouter = require('./routes/spotifyPlaylist');
 const trackRouter = require('./routes/trackList');
 
-// Passport configuration
-require('./config/passport')(passport);
+// Initialize Redis
+const RedisStore = connectRedis(session);
+const redisClient = Redis.createClient({
+    url: process.env.REDIS_URL, // Your internal Redis URL from Render
+    legacyMode: true
+});
+
+redisClient.connect().catch(console.error);
 
 const app = express();
 
-// Initialize client.
-const redisClient = createClient({
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-        host: 'redis://red-cl54sih82rpc739m09kg',
-        port: 6379
-    }
-});
-
-redisClient.on('error', (err) => console.log('Redis Client Error', err));
-redisClient.connect().catch(console.error);
-
-// Initialize store.
-const redisStore = new RedisStore({
-    client: redisClient,
-    prefix: 'jamming:'
-});
-
-// Initialize session storage.
-app.use(session({
-    store: redisStore,
+// Session configuration
+const sessionConfig = {
+    store: new RedisStore({ client: redisClient }),
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
-    secret: process.env.SESSION_SECRET, // Use a secure secret from your environment variables
     cookie: {
-        maxAge: 60 * 60 * 1000, // 1 hour
-        secure: process.env.NODE_ENV === 'production', // use secure cookies in production
+        maxAge: 3600000, // 1 hour
+        secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
         sameSite: 'lax'
     }
-}));
+};
+
+app.use(session(sessionConfig));
+
+
+
+// Passport configuration
+require('./config/passport')(passport);
+
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
@@ -99,7 +95,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Error handling - define as the last middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
